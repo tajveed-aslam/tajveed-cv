@@ -105,8 +105,9 @@
 
   .skills-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px 28px;
+    /* Label column sized to the longest label, so skill lists get the rest of the width. */
+    grid-template-columns: max-content 1fr;
+    gap: 6px 24px;
     font-size: 0.86rem;
   }
   .skills-grid dt {
@@ -115,7 +116,7 @@
     grid-column: 1;
   }
   .skills-grid dd {
-    margin: 0 0 8px;
+    margin: 0;
     color: var(--ink-soft);
   }
   .skill-row {
@@ -181,6 +182,8 @@
     font-size: 0.78rem;
     color: var(--accent);
     font-style: italic;
+    /* Italic glyphs lean past their box; without this the last letter is clipped at the print margin. */
+    padding-right: 0.2em;
   }
   .project p {
     margin: 4px 0 0;
@@ -228,9 +231,18 @@
   }
 
   @media print {
+    @page { size: A4; margin: 0.45in 0.5in; }
+    html { font-size: 14px; }
     body { background: var(--paper); }
-    .page { box-shadow: none; margin: 0; padding: 0.4in; max-width: none; }
+    .page { box-shadow: none; margin: 0; padding: 0; max-width: none; }
     .print-btn { display: none; }
+    header.identity { margin-bottom: 14px; }
+    .status-line { margin: 4px 0 16px; }
+    section { margin-bottom: 16px; }
+    .role li { margin-bottom: 2px; }
+    /* Keep each role/project heading with its first lines instead of stranding it at a page end. */
+    .role-head, .project-head, h2 { break-after: avoid; }
+    .project { break-inside: avoid; }
   }
 </style>
 </head>
